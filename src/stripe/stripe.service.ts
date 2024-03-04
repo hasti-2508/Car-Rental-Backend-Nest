@@ -7,9 +7,6 @@ import Stripe from 'stripe';
 
 @Injectable()
 export class StripeService {
-  createPaymentMethod(paymentMethodDetails: any) {
-    throw new Error('Method not implemented.');
-  }
   private stripe;
 
   constructor(

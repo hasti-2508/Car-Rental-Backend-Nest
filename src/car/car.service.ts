@@ -72,7 +72,6 @@ export class CarService {
   }
 
   async searchCars(query: any): Promise<Car[]> {
-    // Execute the query against the database
     return this.carModel.find(query).exec();
   }
 
@@ -98,18 +97,10 @@ export class CarService {
     if (!car) {
       throw new NotFoundException('Car not found');
     }
-
-    // Add the new rating to the ratings array
     car.ratings.push(rating);
-
-    // Calculate the average rating
     const averageRating =
       car.ratings.reduce((acc, curr) => acc + curr, 0) / car.ratings.length;
-
-    // Update the car document with the new average rating
     car.averageRating = averageRating;
-
-    // Save the updated car document
     return car.save();
   }
 

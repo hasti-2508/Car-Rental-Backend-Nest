@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpException,
-  NotFoundException,
-  Param,
-  Post,
-} from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { StripeService } from './stripe.service';
 
 @Controller('stripe')
@@ -20,7 +12,6 @@ export class StripeController {
     try {
       return this.stripeService.checkout(reservationId);
     } catch (err) {
-      console.log(err);
       return err;
     }
   }

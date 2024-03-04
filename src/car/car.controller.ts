@@ -65,8 +65,6 @@ export class CarController {
     if (model) query.model = model;
     if (color) query.colors = color;
     if (capacity) query.capacity = capacity;
-
-    // Perform the search query
     return this.carservice.searchCars(query);
   }
 
@@ -86,7 +84,7 @@ export class CarController {
   async rateCar(
     @Req() req,
     @Param('id') carId: string,
-    @Body() rateDto: RateDto, // DTO containing rating value
+    @Body() rateDto: RateDto,
   ): Promise<Car> {
     const token = req.cookies?.jwt;
     if (!token) {
@@ -94,7 +92,6 @@ export class CarController {
     }
     const decodedToken = this.jwtService.decode(token) as { userId: string };
     const userId = decodedToken.userId;
-    console.log(userId);
     return this.carservice.addRating(userId, carId, rateDto.rating);
   }
 
@@ -118,8 +115,9 @@ export class CarController {
       storage: diskStorage({
         destination: './assets/',
         filename: (req, file, callback) => {
-          const fileName =
-            path.parse(file.originalname).name.replace(/\s/g, '') + Date.now();
+          const fileName = path
+            .parse(file.originalname)
+            .name.replace(/\s/g, '');
           const extension = path.parse(file.originalname).ext;
           callback(null, `${fileName}${extension}`);
         },
@@ -134,7 +132,7 @@ export class CarController {
     console.log(carId);
     try {
       if (!file || !file.path) {
-        return res.status(HttpStatus.BAD_REQUEST).json({
+        return res.json({
           success: false,
           message: 'No file uploaded or file path is missing.',
         });
@@ -146,14 +144,13 @@ export class CarController {
       car.imageUrl = cloudinaryResponse.url;
       car.save();
 
-      return res.status(HttpStatus.OK).json({
+      return res.json({
         success: true,
         data: file.path,
         cloudinaryResponse: cloudinaryResponse,
       });
     } catch (error) {
-      console.log(error);
-      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      return res.json({
         success: false,
         error: 'Failed to upload image',
       });
