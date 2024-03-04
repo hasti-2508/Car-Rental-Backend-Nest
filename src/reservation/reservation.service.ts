@@ -1,5 +1,10 @@
 // reservation.service.ts
-import { ConflictException, HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  HttpException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { Reservation } from './schemas/reservation.schema';
@@ -8,12 +13,9 @@ import { User } from 'src/auth/schemas/auth.user.schema';
 import { Car } from 'src/car/schemas/car.schemas';
 import { JwtService } from '@nestjs/jwt';
 
-
-
 @Injectable()
 export class ReservationService {
   constructor(
-
     @InjectModel(Reservation.name)
     private reservationModel: mongoose.Model<Reservation>,
     @InjectModel(User.name)
@@ -31,13 +33,15 @@ export class ReservationService {
     const existingReservations = await this.reservationModel.find({
       carId: carId,
       startDate: { $lt: createReservationDto.endDate },
-      endDate: { $gt: createReservationDto.startDate }
-  });
+      endDate: { $gt: createReservationDto.startDate },
+    });
 
-  if (existingReservations.length > 0) {
-      throw new ConflictException('Car is already booked during the requested period');
-  }
-  
+    if (existingReservations.length > 0) {
+      throw new ConflictException(
+        'Car is already booked during the requested period',
+      );
+    }
+
     const isValid = mongoose.Types.ObjectId.isValid(carId);
     if (!isValid) {
       throw new HttpException('Invalid ID', 400);

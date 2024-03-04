@@ -6,9 +6,8 @@ import { CarSchema } from './schemas/car.schemas';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Module({
-  imports:[
-    MongooseModule.forFeature([{name: 'Car', schema: CarSchema}])],                                                    
+  imports: [MongooseModule.forFeature([{ name: 'Car', schema: CarSchema }])],
   controllers: [CarController],
-  providers: [CarService, CloudinaryService]
+  providers: [CarService, CloudinaryService],
 })
 export class CarModule {}

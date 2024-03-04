@@ -6,8 +6,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from 'src/auth/schemas/auth.user.schema';
 
 @Module({
-  imports:[MongooseModule.forFeature([{name: 'Reservation', schema: ReservationSchema}])],
+  imports: [
+    MongooseModule.forFeature([
+      { name: 'Reservation', schema: ReservationSchema },
+    ]),
+  ],
   controllers: [StripeController],
-  providers: [StripeService]
+  providers: [StripeService],
 })
 export class StripeModule {}

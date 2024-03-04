@@ -8,7 +8,7 @@ import Stripe from 'stripe';
 @Injectable()
 export class StripeService {
   createPaymentMethod(paymentMethodDetails: any) {
-      throw new Error('Method not implemented.');
+    throw new Error('Method not implemented.');
   }
   private stripe;
 
@@ -42,12 +42,10 @@ export class StripeService {
     const reserve = matchedData[0];
     const total = reserve.totalPrice;
 
-   return this.stripe.paymentIntents.create({
+    return this.stripe.paymentIntents.create({
       amount: total * 100,
       currency: 'inr',
       payment_method_types: ['card'],
     });
-
   }
-  }
-
+}

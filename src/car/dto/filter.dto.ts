@@ -1,4 +1,4 @@
-import { IsOptional, IsString, IsNumber } from "class-validator";
+import { IsOptional, IsString, IsNumber } from 'class-validator';
 
 export class FilterDto {
   @IsOptional()
@@ -20,5 +20,4 @@ export class FilterDto {
   @IsOptional()
   @IsNumber()
   maxCapacity?: number;
-
 }

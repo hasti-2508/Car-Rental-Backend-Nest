@@ -29,9 +29,9 @@ export class ReservationController {
     @Param('carId') carId: string,
     @Body() createReservationDto: ReservationDto,
   ): Promise<Reservation> {
-    const token = req.cookies.jwt; 
-    if(!token){
-      throw new NotFoundException("User Should be logged in")
+    const token = req.cookies.jwt;
+    if (!token) {
+      throw new NotFoundException('User Should be logged in');
     }
     const decodedToken = this.jwtService.decode(token) as { userId: string };
     const userId = decodedToken.userId;
@@ -44,16 +44,19 @@ export class ReservationController {
 
   @Get(':id')
   async getById(@Param('id') id: string): Promise<Reservation> {
-      return this.reservationService.getReservationById(id);
+    return this.reservationService.getReservationById(id);
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() updateReservationDto: ReservationDto): Promise<Reservation> {
-      return this.reservationService.updateReservation(id, updateReservationDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateReservationDto: ReservationDto,
+  ): Promise<Reservation> {
+    return this.reservationService.updateReservation(id, updateReservationDto);
   }
 
   @Delete(':id')
   async delete(@Param('id') id: string): Promise<void> {
-      return this.reservationService.deleteReservation(id);
+    return this.reservationService.deleteReservation(id);
   }
 }

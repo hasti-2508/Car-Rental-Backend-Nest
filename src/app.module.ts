@@ -14,13 +14,14 @@ import { CloudinaryService } from './cloudinary/cloudinary.service';
   imports: [
     ConfigModule.forRoot({
       envFilePath: '.env',
-      isGlobal: true
+      isGlobal: true,
     }),
     MongooseModule.forRoot(process.env.MONGO_URI),
     CarModule,
     AuthModule,
     ReservationModule,
-    StripeModule],
+    StripeModule,
+  ],
   controllers: [AppController],
   providers: [AppService, CloudinaryService],
 })

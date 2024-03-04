@@ -12,8 +12,6 @@ import { UpdateCarDto } from './dto/updateCar.dto';
 import { SortDto } from './dto/sort.dto';
 import { FilterDto } from './dto/filter.dto';
 
-
-
 @Injectable()
 export class CarService {
   constructor(
@@ -53,7 +51,7 @@ export class CarService {
     return query.exec();
   }
 
-  async findCarWithId(id:string){
+  async findCarWithId(id: string) {
     const car = await this.carModel.findById(id);
     return car;
   }
@@ -64,7 +62,7 @@ export class CarService {
       throw new HttpException('Invalid ID', 400);
     }
 
-    const car = await this.carModel.findById(id); 
+    const car = await this.carModel.findById(id);
     console.log('Car:', car);
     if (!car) {
       throw new NotFoundException('Car not found');
@@ -85,17 +83,17 @@ export class CarService {
   }
 
   async addRating(userId: string, carId: string, rating: number): Promise<Car> {
-    console.log(userId)
-if(!userId){
-  throw new NotFoundException("User Not Found")
-}
+    console.log(userId);
+    if (!userId) {
+      throw new NotFoundException('User Not Found');
+    }
 
     const isValid = mongoose.Types.ObjectId.isValid(carId);
     if (!isValid) {
       throw new HttpException('Invalid ID', 400);
     }
     const car = await this.carModel.findById(carId);
-    console.log(car)
+    console.log(car);
 
     if (!car) {
       throw new NotFoundException('Car not found');
@@ -105,7 +103,8 @@ if(!userId){
     car.ratings.push(rating);
 
     // Calculate the average rating
-    const averageRating = car.ratings.reduce((acc, curr) => acc + curr, 0) / car.ratings.length;
+    const averageRating =
+      car.ratings.reduce((acc, curr) => acc + curr, 0) / car.ratings.length;
 
     // Update the car document with the new average rating
     car.averageRating = averageRating;
@@ -140,7 +139,4 @@ if(!userId){
       throw new NotFoundException('Car not found');
     }
   }
-
-
-
 }

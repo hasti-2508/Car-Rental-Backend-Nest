@@ -1,4 +1,3 @@
-
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 
@@ -17,9 +16,9 @@ export class Reservation extends Document {
   @Prop()
   startDate: Date;
 
-  @Prop(    )
+  @Prop()
   endDate: Date;
-    
+
   @Prop()
   durationInDays: number;
 

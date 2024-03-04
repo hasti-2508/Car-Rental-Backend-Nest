@@ -1,13 +1,13 @@
-import { IsOptional, IsString, IsIn } from "class-validator";
+import { IsOptional, IsString, IsIn } from 'class-validator';
 
 export class SortDto {
   @IsOptional()
   @IsString()
-  @IsIn(["brand", "model", "capacity", "rating", "rentPrice"])
+  @IsIn(['brand', 'model', 'capacity', 'rating', 'rentPrice'])
   sortBy?: string;
 
   @IsOptional()
   @IsString()
-  @IsIn(["asc", "desc"])
+  @IsIn(['asc', 'desc'])
   sortOrder?: string;
 }
