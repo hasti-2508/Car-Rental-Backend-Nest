@@ -14,6 +14,7 @@ import {
   HttpStatus,
   Res,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import { CarService } from './car.service';
 import { Car } from './schemas/car.schemas';
@@ -74,8 +75,8 @@ export class CarController {
   }
 
   @Post('/')
-  // @UseGuards(RolesGuard)
-  // @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN)
   async createCar(@Body() createCarDto: CreateCarDto) {
     return this.carservice.createCar(createCarDto);
   }

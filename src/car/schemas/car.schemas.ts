@@ -23,13 +23,14 @@ export class Car {
   rentPrice: Number;
 
   @Prop()
-  ratings: number[];
+  ratings: any[];
   
   @Prop()
   averageRating: number; 
 
   @Prop()
   imageUrl: string;
+
 }
 
 export const CarSchema = SchemaFactory.createForClass(Car);

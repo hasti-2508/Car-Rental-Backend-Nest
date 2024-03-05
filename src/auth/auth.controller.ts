@@ -29,13 +29,40 @@ export class AuthController {
     @Body() body: CreateUserDto,
   ): Promise<User> {
     const { name, email, password } = body;
-    const hashedPassword = await bcrypt.hash(password, 10);
+    if (password.length < 6) {
+      throw new BadRequestException('Password must be at least 6 characters long');
+    }
+
+    if (!/[A-Z]/.test(password)) {
+      throw new BadRequestException('Password must contain at least one uppercase letter');
+    }
+
+    if (!/[a-z]/.test(password)) {
+      throw new BadRequestException('Password must contain at least one lowercase letter');
+    }
+
+    if (!/\d/.test(password)) {
+      throw new BadRequestException('Password must contain at least one digit');
+    }
+
+    if (!/[!@#$%^&*()_+{}[\]:";<>?,./\\|`~-]/.test(password)) {
+      throw new BadRequestException('Password must contain at least one special character');
+    }
+
+    if (/\s/.test(password)) {
+      throw new BadRequestException('Password must not contain whitespace');
+    }    const hashedPassword = await bcrypt.hash(password, 10);
     const user = {
       name,
       email,
       password: hashedPassword,
       role: 'user',
     };
+  
+    const existingUser = await this.authService.findByEmail(email);
+    if (existingUser) {
+      throw new BadRequestException('Email already exists');
+    }
 
     const newUser = await this.authService.register(user);
     return newUser;
@@ -80,7 +107,6 @@ export class AuthController {
       }
       const user = await this.authService.findByEmail(data.email);
       // console.log(user)
-      //  // Convert Mongoose document to plain JavaScript object
       // //  const userData = user.toJSON();
       //  // Exclude password field
       //  delete user.password;

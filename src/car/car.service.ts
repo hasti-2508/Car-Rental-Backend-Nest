@@ -97,9 +97,17 @@ export class CarService {
     if (!car) {
       throw new NotFoundException('Car not found');
     }
-    car.ratings.push(rating);
+
+    const existingRating = car.ratings.find((r) => r.userId === userId);
+    if (existingRating) {
+      throw new HttpException('User has already rated this car', 400);
+    }   
+    car.ratings.push({
+      rating,
+      userId
+    });
     const averageRating =
-      car.ratings.reduce((acc, curr) => acc + curr, 0) / car.ratings.length;
+      car.ratings.reduce((acc, curr) => acc + curr.rating, 0) / car.ratings.length;
     car.averageRating = averageRating;
     return car.save();
   }
